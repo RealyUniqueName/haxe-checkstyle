@@ -7,7 +7,9 @@ class SpacingCheckTest extends CheckTestCase<SpacingCheckTests> {
 
 	public function testIfShouldContainSpace() {
 		assertMsg(new SpacingCheck(), TEST1A, 'No space between "if" and "("');
+		assertMsg(new SpacingCheck(), TEST1C, 'No space between "if" and "("');
 		assertNoMsg(new SpacingCheck(), TEST1B);
+		assertNoMsg(new SpacingCheck(), TEST1D);
 	}
 
 	public function testIfShouldNotContainSpace() {
@@ -15,7 +17,9 @@ class SpacingCheckTest extends CheckTestCase<SpacingCheckTests> {
 		check.spaceIfCondition = Directive.SHOULD_NOT;
 
 		assertMsg(check, TEST1B, 'Space between "if" and "("');
+		assertMsg(check, TEST1D, 'Space between "if" and "("');
 		assertNoMsg(check, TEST1A);
+		assertNoMsg(check, TEST1D);
 	}
 
 	public function testBinaryOperator() {
@@ -92,6 +96,28 @@ abstract SpacingCheckTests(String) to String {
 	class Test {
 		public function test() {
 			if (true) {}
+		}
+	}";
+
+	var TEST1C = "
+	class Test {
+		public function test() {
+			if(
+				true
+				&& true
+				|| false
+			) {}
+		}
+	}";
+
+	var TEST1D = "
+	class Test {
+		public function test() {
+			if (
+				true
+				&& true
+				|| false
+			) {}
 		}
 	}";
 
